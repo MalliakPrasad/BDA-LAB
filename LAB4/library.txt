@@ -1,0 +1,131 @@
+bmsce@bmsce-Precision-T1700:~$ cqlsh
+Connected to Test Cluster at 127.0.0.1:9042.
+[cqlsh 5.0.1 | Cassandra 3.11.4 | CQL spec 3.4.4 | Native protocol v4]
+Use HELP for help.
+cqlsh> create KEYSPACE library WITH replication = {'class' : 'SimpleStrategy', 'replication_factor : 1};
+   ... 
+cqlsh> create KEYSPACE library WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};
+AlreadyExists: Keyspace 'library' already exists
+cqlsh> create KEYSPACE LIBRARY WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};
+AlreadyExists: Keyspace 'library' already exists
+cqlsh> create KEYSPACE libraries WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};
+cqlsh> CREATE TABLE library_info (
+   ... stud_id int,
+   ... counter_val counter,
+   ... stud_name text,
+   ... book_id int,
+   ... date_of_issue date,
+   ... PRIMARY KEY(stud_id));
+InvalidRequest: Error from server: code=2200 [Invalid query] message="No keyspace has been specified. USE a keyspace, or explicitly specify keyspace.tablename"
+cqlsh> USE libraries
+   ... 
+cqlsh> use libraries;
+cqlsh:libraries> CREATE TABLE library_info ( stud_id int, counter_val counter, stud_name text, book_id int, date_of_issue date, PRIMARY KEY(stud_id));
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Cannot mix counter and non counter columns in the same table"
+cqlsh:libraries> CREATE TABLE library_info ( stud_id int, counter_val counter, stud_name text, book_id int, date_of_issue date, PRIMARY KEY(stud_id, stud_name, book_id, date_of_issue));
+cqlsh:libraries> select * from library_info;
+
+ stud_id | stud_name | book_id | date_of_issue | counter_val
+---------+-----------+---------+---------------+-------------
+
+(0 rows)
+cqlsh:libraries> begin batch
+             ... insert into library_info(stud_id, counter_val, stud_name, book_id, date_of_issue)
+             ... values(100, 1, 'Mal', 
+cqlsh:libraries> ALTER TABLE library_info ADD book_name<text>;
+SyntaxException: line 1:38 no viable alternative at input '<' (ALTER TABLE library_info ADD book_name[<]...)
+cqlsh:libraries> ALTER TABLE library_info ADD book_name <text>;
+SyntaxException: line 1:39 no viable alternative at input '<' (ALTER TABLE library_info ADD book_name [<]...)
+cqlsh:libraries> ALTER TABLE library_info ADD book_name text;
+ConfigurationException: Cannot add a non counter column (book_name) in a counter column family
+cqlsh:libraries> CREATE TABLE libraryinfo ( stud_id int, counter_val counter, stud_name text, book_id int, date_of_issue date, PRIMARY KEY(stud_id, stud_name, book_id, book_name, date_of_issue));
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Unknown definition book_name referenced in PRIMARY KEY"
+cqlsh:libraries> CREATE TABLE libraryinfo ( stud_id int, counter_val counter, stud_name text, book_name text, book_id int, date_of_issue date, PRIMARY KEY(stud_id, stud_name, book_id, book_name, date_of_issue));
+cqlsh:libraries> select * from library_info;
+
+ stud_id | stud_name | book_id | date_of_issue | counter_val
+---------+-----------+---------+---------------+-------------
+
+(0 rows)
+cqlsh:libraries> select * from libraryinfo;
+
+ stud_id | stud_name | book_id | book_name | date_of_issue | counter_val
+---------+-----------+---------+-----------+---------------+-------------
+
+(0 rows)
+cqlsh:libraries> begin batch
+             ... insert into library_info(stud_id, counter_val, stud_name, book_name, book_id, date_of_issue)
+             ... values(100, 0, 'Mal', 'BDA', '1290', '2020-01-20');
+             ... insert into library_info(stud_id, counter_val, stud_name, book_name, book_id, date_of_issue)
+             ... values(100, 0, 'Mal', 'BDA', '1290', '2018-10-23');
+             ... insert into library_info(stud_id, counter_val, stud_name, book_name, book_id, date_of_issue)
+             ... values(100, 0, 'Mal', 'BDA', '1290', '2018-10-23');
+cqlsh:libraries> begin batch
+             ... insert into libraryinfo(stud_id, counter_val, stud_name, book_name, book_id, date_of_issue)
+             ... values(100, 0, 'Mal', 'BDA', '1290', '2018-10-23');
+             ... insert into libraryinfo(stud_id, counter_val, stud_name, book_name, book_id, date_of_issue)
+             ... values(112, 0, 'Sam', 'DataScience', '1291', '2020-09-14');
+cqlsh:libraries> update libraryinfo SET counter_value=counter_value+1 where stud_id=100 and stud_name='Mal' and book_name='BDA' and book_id='1291' and date_of_issue='2020-10-09';
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Undefined column name counter_value"
+cqlsh:libraries> update libraryinfo SET counter_val=counter_val+1 where stud_id=100 and stud_name='Mal' and book_name='BDA' and book_id='1291' and date_of_issue='2020-10-09';
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Invalid STRING constant (1291) for "book_id" of type int"
+cqlsh:libraries> update libraryinfo SET counter_val=counter_val+1 where stud_id=100 and stud_name='Mal' and book_name='BDA' and book_id=1291 and date_of_issue='2020-10-09';
+cqlsh:libraries> update libraryinfo SET counter_val=counter_val+1 where stud_id=112 and stud_name='Sam' and book_name='BDA' and book_id=1280 and date_of_issue='2020-02-12';
+cqlsh:libraries> update libraryinfo SET counter_val=counter_val+1 where stud_id=129 and stud_name='Jen' and book_name='DataScience' and book_id=3009 and date_of_issue='2020-12-24';
+cqlsh:libraries> update libraryinfo SET counter_val=counter_val+1 where stud_id=115 and stud_name='Jon' and book_name='CNS' and book_id=8765 and date_of_issue='2020-03-08';
+cqlsh:libraries> select * from libraryinfo;
+
+ stud_id | stud_name | book_id | book_name   | date_of_issue | counter_val
+---------+-----------+---------+-------------+---------------+-------------
+     129 |       Jen |    3009 | DataScience |    2020-12-24 |           1
+     112 |       Sam |    1280 |         BDA |    2020-02-12 |           1
+     115 |       Jon |    8765 |         CNS |    2020-03-08 |           1
+     100 |       Mal |    1291 |         BDA |    2020-10-09 |           1
+
+(4 rows)
+cqlsh:libraries> update libraryinfo SET counter_val=counter_val+1 where stud_name='Mal';
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Some partition key parts are missing: stud_id"
+cqlsh:libraries> update libraryinfo SET counter_val=counter_val+1 where stud_id=100 and stud_name='Mal' and book_name='BDA' and book_id=1291 and date_of_issue='2020-10-09';
+cqlsh:libraries> select * from libraryinfo;
+
+ stud_id | stud_name | book_id | book_name   | date_of_issue | counter_val
+---------+-----------+---------+-------------+---------------+-------------
+     129 |       Jen |    3009 | DataScience |    2020-12-24 |           1
+     112 |       Sam |    1280 |         BDA |    2020-02-12 |           1
+     115 |       Jon |    8765 |         CNS |    2020-03-08 |           1
+     100 |       Mal |    1291 |         BDA |    2020-10-09 |           2
+
+(4 rows)
+cqlsh:libraries> CREATE index on libraryinfo(book_name);
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Secondary indexes are not supported on counter tables"
+cqlsh:libraries> CREATE index on libraryinfo (book_name);
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Secondary indexes are not supported on counter tables"
+cqlsh:libraries> select counter_val from libraryinfo where stud_id=112 and book_name='BDA';
+InvalidRequest: Error from server: code=2200 [Invalid query] message="PRIMARY KEY column "book_name" cannot be restricted as preceding column "stud_name" is not restricted"
+cqlsh:libraries> CREATE INDEX ON libraryinfo (book_name);
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Secondary indexes are not supported on counter tables"
+cqlsh:libraries> CREATE INDEX ON libraryinfo(book_name);
+InvalidRequest: Error from server: code=2200 [Invalid query] message="Secondary indexes are not supported on counter tables"
+cqlsh:libraries> select * from libraryinfo where counter_val=2 allow filtering;
+
+ stud_id | stud_name | book_id | book_name | date_of_issue | counter_val
+---------+-----------+---------+-----------+---------------+-------------
+     100 |       Mal |    1291 |       BDA |    2020-10-09 |           2
+
+(1 rows)
+cqlsh:libraries> copy libraryinfo to data.csv;
+Improper copy command.
+cqlsh:libraries> COPY libraryinfo to data.csv;
+Improper COPY command.
+cqlsh:libraries> COPY libraryinfo to 'data.csv';
+Using 11 child processes
+
+Starting copy of libraries.libraryinfo with columns [stud_id, stud_name, book_id, book_name, date_of_issue, counter_val].
+Processed: 4 rows; Rate:      24 rows/s; Avg. rate:      24 rows/s
+4 rows exported to 1 files in 0.189 seconds.
+cqlsh:libraries> COPY LIBRARYINFOCOPY FROM '/Desktop/data.csv';
+Column family 'libraryinfocopy' not found
+cqlsh:libraries> COPY LIBRARYINFOCOPY(stud_id, stud_name, book_id, book_name, date_of_issue, counter_val) FROM '/Desktop/data.csv';
+Column family 'libraryinfocopy' not found
+cqlsh:libraries> 
+
