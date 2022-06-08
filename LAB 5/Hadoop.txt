@@ -1,0 +1,223 @@
+hduser@bmsce-Precision-T1700:~$ start-all.sh
+This script is Deprecated. Instead use start-dfs.sh and start-yarn.sh
+Starting namenodes on [localhost]
+hduser@localhost's password:
+bmsce
+
+localhost: Permission denied, please try again.
+hduser@localhost's password:
+localhost: Permission denied, please try again.
+hduser@localhost's password:
+bmsce
+localhost: hduser@localhost: Permission denied (publickey,password).
+hduser@localhost's password:
+hduser@localhost's password: localhost: Permission denied, please try again.
+
+bmsce
+localhost: Permission denied, please try again.
+hduser@localhost's password:
+localhost: hduser@localhost: Permission denied (publickey,password).
+Starting secondary namenodes [0.0.0.0]
+bhduser@0.0.0.0's password:
+bmsce
+hduser@0.0.0.0's password: 0.0.0.0: Permission denied, please try again.
+
+hduser@0.0.0.0's password: 0.0.0.0: Permission denied, please try again.
+
+bmsce
+0.0.0.0: hduser@0.0.0.0: Permission denied (publickey,password).
+starting yarn daemons
+resourcemanager running as process 5404. Stop it first.
+hduser@localhost's password:
+hduser@localhost's password: localhost: Permission denied, please try again.
+
+bmsce
+localhost: Permission denied, please try again.
+hduser@localhost's password:
+bmsce
+localhost: hduser@localhost: Permission denied (publickey,password).
+hduser@bmsce-Precision-T1700:~$ bmsce
+bmsce: command not found
+hduser@bmsce-Precision-T1700:~$ jsp
+
+Command 'jsp' not found, but there are 20 similar ones.
+
+hduser@bmsce-Precision-T1700:~$ jps
+5744 NodeManager
+4832 NameNode
+5015 DataNode
+9466 Jps
+5404 ResourceManager
+5229 SecondaryNameNode
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -mkdir /mal
+mkdir: `/mal': File exists
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls /mal
+Found 2 items
+drwxr-xr-x   - hduser supergroup          0 2022-06-06 14:44 /mal/hduser
+-rw-r--r--   1 hduser supergroup          0 2022-06-06 14:35 /mal/name.txt
+hduser@bmsce-Precision-T1700:~$ pwd
+/home/hduser
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -put /home/hduser/6b.txt /mal
+put: `/home/hduser/6b.txt': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -put /home/hduser/
+.bash_history
+.bash_logout
+.bashrc
+.beeline/
+.cache/
+.cassandra/
+.config/
+.dbshell
+.dbus/
+d:\elearninglists.csv
+derby.log
+Desktop/
+Documents/
+.dosbox/
+Downloads/
+.eclipse/
+eclipse-workspace/
+examples.desktop
+file1.txt
+file2.txt
+.gnome/
+.gnupg/
+hadoop-2.6.0.tar.gz
+hadoopham/
+hive/
+.hivehistory
+\home\pt\elearninglists.csv
+.ICEauthority
+.Komorebi.prop
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -put /home/hduser/Desktop/6b.txt /mal
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -cat /mal
+cat: `/mal': Is a directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -cat /mal/6b.txt
+this is 6b
+
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -copyFromLocal /home/hduser/Desktop/6b.txt /mal/new6b.txt
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls /mal
+Found 4 items
+-rw-r--r--   1 hduser supergroup         12 2022-06-06 14:51 /mal/6b.txt
+drwxr-xr-x   - hduser supergroup          0 2022-06-06 14:44 /mal/hduser
+-rw-r--r--   1 hduser supergroup          0 2022-06-06 14:35 /mal/name.txt
+-rw-r--r--   1 hduser supergroup         12 2022-06-06 14:52 /mal/new6b.txt
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -cat /mal/new6b.txt
+this is 6b
+
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -cat /mal/name.txt
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -get /mal/new6b.txt /home/hduser/Downloads
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -cat /home/hduser/Downloads
+cat: `/home/hduser/Downloads': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -cat Downloads
+cat: `Downloads': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -cat /home/hduser/Desktop/Downloads
+cat: `/home/hduser/Desktop/Downloads': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls
+ls: `.': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls /
+Found 17 items
+drwxr-xr-x   - hduser supergroup          0 2022-06-01 09:37 /172
+drwxr-xr-x   - hduser supergroup          0 2022-06-04 09:50 /FFF
+drwxr-xr-x   - hduser supergroup          0 2022-06-06 12:28 /FFFf
+drwxr-xr-x   - hduser supergroup          0 2022-06-06 12:32 /GGG
+drwxr-xr-x   - hduser supergroup          0 2022-06-01 15:02 /NewPremSai
+drwxr-xr-x   - hduser supergroup          0 2022-06-01 14:58 /PremSai
+-rw-r--r--   1 hduser supergroup         19 2022-05-31 10:31 /abc
+drwxr-xr-x   - hduser supergroup          0 2022-06-03 12:49 /abcd
+drwxr-xr-x   - hduser supergroup          0 2022-05-31 10:25 /cds
+drwxr-xr-x   - hduser supergroup          0 2022-06-03 14:46 /derek
+drwxr-xr-x   - hduser supergroup          0 2022-06-06 14:52 /mal
+drwxr-xr-x   - hduser supergroup          0 2022-06-01 09:36 /new
+drwxr-xr-x   - hduser supergroup          0 2022-05-31 09:46 /punit
+drwxr-xr-x   - hduser supergroup          0 2022-06-03 12:43 /sneha
+drwxr-xr-x   - hduser supergroup          0 2022-06-01 10:12 /tasmiya
+drwxrwxr-x   - hduser supergroup          0 2019-08-01 16:19 /tmp
+drwxr-xr-x   - hduser supergroup          0 2019-08-01 16:03 /user
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls /Downloads
+ls: `/Downloads': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls home/hduser/Downloads
+ls: `home/hduser/Downloads': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls home/hduser/Desktop/Downloads
+ls: `home/hduser/Desktop/Downloads': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -get /mal/new6b.txt /Downloads
+get: /Downloads._COPYING_ (Permission denied)
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -get /mal/new6b.txt /hello.txt
+get: /hello.txt._COPYING_ (Permission denied)
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -get /mal/new6b.txt home/hduser/Desktop/hello.txt
+get: `home/hduser/Desktop/hello.txt': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -get /mal/new6b.txt home/hduser/Desktop/hello1.txt
+get: `home/hduser/Desktop/hello1.txt': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -get /mal/new6b.txt home/hduser/hello1.txt
+get: `home/hduser/hello1.txt': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -get /mal/new6b.txt home/hduser/Desktop/one.txt
+get: `home/hduser/Desktop/one.txt': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -get /mal/new6b.txt /home/hduser/Desktop/one.txt
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls /
+Found 17 items
+drwxr-xr-x   - hduser supergroup          0 2022-06-01 09:37 /172
+drwxr-xr-x   - hduser supergroup          0 2022-06-04 09:50 /FFF
+drwxr-xr-x   - hduser supergroup          0 2022-06-06 12:28 /FFFf
+drwxr-xr-x   - hduser supergroup          0 2022-06-06 12:32 /GGG
+drwxr-xr-x   - hduser supergroup          0 2022-06-01 15:02 /NewPremSai
+drwxr-xr-x   - hduser supergroup          0 2022-06-01 14:58 /PremSai
+-rw-r--r--   1 hduser supergroup         19 2022-05-31 10:31 /abc
+drwxr-xr-x   - hduser supergroup          0 2022-06-03 12:49 /abcd
+drwxr-xr-x   - hduser supergroup          0 2022-05-31 10:25 /cds
+drwxr-xr-x   - hduser supergroup          0 2022-06-03 14:46 /derek
+drwxr-xr-x   - hduser supergroup          0 2022-06-06 14:52 /mal
+drwxr-xr-x   - hduser supergroup          0 2022-06-01 09:36 /new
+drwxr-xr-x   - hduser supergroup          0 2022-05-31 09:46 /punit
+drwxr-xr-x   - hduser supergroup          0 2022-06-03 12:43 /sneha
+drwxr-xr-x   - hduser supergroup          0 2022-06-01 10:12 /tasmiya
+drwxrwxr-x   - hduser supergroup          0 2019-08-01 16:19 /tmp
+drwxr-xr-x   - hduser supergroup          0 2019-08-01 16:03 /user
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls /home/hduser/Desktop
+ls: `/home/hduser/Desktop': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls Desktop
+ls: `Desktop': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls /Desktop
+ls: `/Desktop': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -getmerge /mal/new6b.txt /mal/6b.txt /home/hduser/Desktop/merged.txt
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -cat /home/hduser/Desktop/merged.txt
+cat: `/home/hduser/Desktop/merged.txt': No such file or directory
+hduser@bmsce-Precision-T1700:~$ cat /home/hduser/Desktop/one.txt
+this is 6b
+
+hduser@bmsce-Precision-T1700:~$ cat /home/hduser/Desktop/merged.txt
+this is 6b
+
+this is 6b
+
+hduser@bmsce-Precision-T1700:~$ hadoop fs -getfacl /mal/
+# file: /mal
+# owner: hduser
+# group: supergroup
+user::rwx
+group::r-x
+other::r-x
+
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -copyToLocal /mal/new6b.txt /home/hduser/Desktop/one_copied.txt
+hduser@bmsce-Precision-T1700:~$ cat /home/hduser/Desktop/one_copied.txt
+this is 6b
+
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -mkdir/mallika
+-mkdir/mallika: Unknown command
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -mkdir /mallika
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -mv /mal/6b.txt/ mallika
+mv: `mallika': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -mv /mal/6b.txt /mallika/
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls /mal
+Found 3 items
+drwxr-xr-x   - hduser supergroup          0 2022-06-06 14:44 /mal/hduser
+-rw-r--r--   1 hduser supergroup          0 2022-06-06 14:35 /mal/name.txt
+-rw-r--r--   1 hduser supergroup         12 2022-06-06 14:52 /mal/new6b.txt
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -cp /mal/new6b.txt/ mallika
+cp: `mallika': No such file or directory
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -cp /mal/new6b.txt /mallika/
+hduser@bmsce-Precision-T1700:~$ hdfs dfs -ls /mal
+Found 3 items
+drwxr-xr-x   - hduser supergroup          0 2022-06-06 14:44 /mal/hduser
+-rw-r--r--   1 hduser supergroup          0 2022-06-06 14:35 /mal/name.txt
+-rw-r--r--   1 hduser supergroup         12 2022-06-06 14:52 /mal/new6b.txt
+hduser@bmsce-Precision-T1700:~$ 
